@@ -1,6 +1,7 @@
 function [ distance ] = DTWDistanceRecursive( patternA, patternB)
-%DTWDISTANCE Summary of this function goes here
-%   Detailed explanation goes here
+%DTWDISTANCE Computes the DTW distance
+%   Takes two patterns in forms of matrices and calculates the time warped
+%   distance between them recursively
 global matrix
 n = size(patternA, 2);
 m = size(patternB, 2);

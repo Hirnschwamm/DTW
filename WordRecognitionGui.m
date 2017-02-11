@@ -43,7 +43,6 @@ else
 end
 % End initialization code - DO NOT EDIT
 
-
 % --- Executes just before WordRecognitionGui is made visible.
 function WordRecognitionGui_OpeningFcn(hObject, eventdata, handles, varargin)
 % This function has no output args, see OutputFcn.
@@ -85,7 +84,6 @@ guidata(hObject, handles);
 % UIWAIT makes WordRecognitionGui wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
 
-
 % --- Outputs from this function are returned to the command line.
 function varargout = WordRecognitionGui_OutputFcn(hObject, eventdata, handles) 
 % varargout  cell array for returning output args (see VARARGOUT);
@@ -95,7 +93,6 @@ function varargout = WordRecognitionGui_OutputFcn(hObject, eventdata, handles)
 
 % Get default command line output from handles structure
 varargout{1} = handles.output;
-
 
 % --- Executes on button press in trainWordBtn.
 function trainWordBtn_Callback(hObject, eventdata, handles)
@@ -111,9 +108,6 @@ function wordListPopup_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to wordListPopup (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
-
-% Hint: popupmenu controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
@@ -127,7 +121,6 @@ if(exist(handles.samplesFolderName, 'dir') ~= 0)
     rmdir(handles.samplesFolderName, 's');
 end
 
-
 % --- Executes on button press in recognizeWordBtn.
 function recognizeWordBtn_Callback(hObject, eventdata, handles)
 % hObject    handle to recognizeWordBtn (see GCBO)
@@ -137,7 +130,6 @@ audioData = RecordAudioData(handles);
 mfcc = GetMFCCCoefficients(audioData, handles.bitrate, handles.sampleMode, true);
 index = FindMatchingPattern(mfcc, handles);
 handles.recognizedWordTxt.String = strjoin(handles.wordList(index));
-
 
 % --- Executes on button press in preEmphasisCheckBox.
 function preEmphasisCheckBox_Callback(hObject, eventdata, handles)
@@ -158,7 +150,6 @@ else
     end
 end
 guidata(hObject, handles);
-
 
 % --- Executes on button press in lifteringCheckBox.
 function lifteringCheckBox_Callback(hObject, eventdata, handles)
