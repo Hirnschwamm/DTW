@@ -22,7 +22,7 @@ function varargout = WordRecognitionGui(varargin)
 
 % Edit the above text to modify the response to help WordRecognitionGui
 
-% Last Modified by GUIDE v2.5 21-Jan-2017 16:34:50
+% Last Modified by GUIDE v2.5 13-Feb-2017 23:01:35
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -68,7 +68,8 @@ handles.wordList = {'rot' ...
             'sechs' ...
             'sieben' ...
             'acht' ...
-            'neun'};
+            'neun'...
+            'zehn'};
 handles.wordListPopup.String = handles.wordList;
 
 handles.bitrate = 16000;
@@ -101,7 +102,27 @@ function trainWordBtn_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 audioData = RecordAudioData(handles);
 mfcc = GetMFCCCoefficients(audioData, handles.bitrate, handles.sampleMode, true);
-SaveMFCCToFile(mfcc, handles);
+SaveMFCCToFile(mfcc, handles, handles.sampleMode);
+
+% --- Executes on button press in trainWordAllModesBtn.
+function trainWordAllModesBtn_Callback(hObject, eventdata, handles)
+% hObject    handle to trainWordAllModesBtn (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+audioData = RecordAudioData(handles);
+
+mfcc = GetMFCCCoefficients(audioData, handles.bitrate, SampleMode.Preemphasis_Off_Liftering_Off, false);
+SaveMFCCToFile(mfcc, handles, SampleMode.Preemphasis_Off_Liftering_Off);
+
+mfcc = GetMFCCCoefficients(audioData, handles.bitrate, SampleMode.Preemphasis_Off_Liftering_On, false);
+SaveMFCCToFile(mfcc, handles, SampleMode.Preemphasis_Off_Liftering_On);
+
+mfcc = GetMFCCCoefficients(audioData, handles.bitrate, SampleMode.Preemphasis_On_Liftering_Off, false);
+SaveMFCCToFile(mfcc, handles, SampleMode.Preemphasis_On_Liftering_Off);
+
+mfcc = GetMFCCCoefficients(audioData, handles.bitrate, SampleMode.Preemphasis_On_Liftering_On, true);
+SaveMFCCToFile(mfcc, handles, SampleMode.Preemphasis_On_Liftering_On);
+
 
 % --- Executes during object creation, after setting all properties.
 function wordListPopup_CreateFcn(hObject, eventdata, handles)
@@ -170,3 +191,33 @@ else
     end
 end
 guidata(hObject, handles);
+
+
+% --- Executes on button press in pushbutton4.
+function pushbutton4_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton4 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+disp('**************************************');
+audioData = RecordAudioData(handles);
+
+handles.sampleMode = SampleMode.Preemphasis_Off_Liftering_Off;
+mfcc1 = GetMFCCCoefficients(audioData, handles.bitrate, handles.sampleMode, true);
+index1 = FindMatchingPattern(mfcc1, handles);
+disp(strcat(char(SampleMode.Preemphasis_Off_Liftering_Off), ': ', strjoin(handles.wordList(index1))));
+
+handles.sampleMode = SampleMode.Preemphasis_Off_Liftering_On;
+mfcc2 = GetMFCCCoefficients(audioData, handles.bitrate, handles.sampleMode, false);
+index2 = FindMatchingPattern(mfcc2, handles);
+disp(strcat(char(SampleMode.Preemphasis_Off_Liftering_On), ': ', strjoin(handles.wordList(index2))));
+
+handles.sampleMode = SampleMode.Preemphasis_On_Liftering_Off;
+mfcc3 = GetMFCCCoefficients(audioData, handles.bitrate, handles.sampleMode, false);
+index3 = FindMatchingPattern(mfcc3, handles);
+disp(strcat(char(SampleMode.Preemphasis_On_Liftering_Off), ': ', strjoin(handles.wordList(index3))));
+
+handles.sampleMode = SampleMode.Preemphasis_On_Liftering_On;
+mfcc4 = GetMFCCCoefficients(audioData, handles.bitrate, handles.sampleMode, false);
+index4 = FindMatchingPattern(mfcc4, handles);
+disp(strcat(char(SampleMode.Preemphasis_On_Liftering_On), ': ', strjoin(handles.wordList(index4))));
+disp('**************************************');
