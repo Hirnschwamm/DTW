@@ -35,7 +35,6 @@ for currentWord = handles.wordList
     end
     wordDistanceAverage = totalDistance / j;
     distanceList(i) = wordDistanceAverage;
-
 end
 
 %Return the index of the word with the minimal distance in the word list
