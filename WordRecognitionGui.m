@@ -120,7 +120,7 @@ SaveMFCCToFile(mfcc, handles, SampleMode.Preemphasis_Off_Liftering_On);
 mfcc = GetMFCCCoefficients(audioData, handles.bitrate, SampleMode.Preemphasis_On_Liftering_Off, false);
 SaveMFCCToFile(mfcc, handles, SampleMode.Preemphasis_On_Liftering_Off);
 
-mfcc = GetMFCCCoefficients(audioData, handles.bitrate, SampleMode.Preemphasis_On_Liftering_On, true);
+mfcc = GetMFCCCoefficients(audioData, handles.bitrate, SampleMode.Preemphasis_On_Liftering_On, false);
 SaveMFCCToFile(mfcc, handles, SampleMode.Preemphasis_On_Liftering_On);
 
 
@@ -191,33 +191,3 @@ else
     end
 end
 guidata(hObject, handles);
-
-
-% --- Executes on button press in pushbutton4.
-function pushbutton4_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton4 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-disp('**************************************');
-audioData = RecordAudioData(handles);
-
-handles.sampleMode = SampleMode.Preemphasis_Off_Liftering_Off;
-mfcc1 = GetMFCCCoefficients(audioData, handles.bitrate, handles.sampleMode, true);
-index1 = FindMatchingPattern(mfcc1, handles);
-disp(strcat(char(SampleMode.Preemphasis_Off_Liftering_Off), ': ', strjoin(handles.wordList(index1))));
-
-handles.sampleMode = SampleMode.Preemphasis_Off_Liftering_On;
-mfcc2 = GetMFCCCoefficients(audioData, handles.bitrate, handles.sampleMode, false);
-index2 = FindMatchingPattern(mfcc2, handles);
-disp(strcat(char(SampleMode.Preemphasis_Off_Liftering_On), ': ', strjoin(handles.wordList(index2))));
-
-handles.sampleMode = SampleMode.Preemphasis_On_Liftering_Off;
-mfcc3 = GetMFCCCoefficients(audioData, handles.bitrate, handles.sampleMode, false);
-index3 = FindMatchingPattern(mfcc3, handles);
-disp(strcat(char(SampleMode.Preemphasis_On_Liftering_Off), ': ', strjoin(handles.wordList(index3))));
-
-handles.sampleMode = SampleMode.Preemphasis_On_Liftering_On;
-mfcc4 = GetMFCCCoefficients(audioData, handles.bitrate, handles.sampleMode, false);
-index4 = FindMatchingPattern(mfcc4, handles);
-disp(strcat(char(SampleMode.Preemphasis_On_Liftering_On), ': ', strjoin(handles.wordList(index4))));
-disp('**************************************');
